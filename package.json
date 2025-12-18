@@ -1,0 +1,15 @@
+{
+  "name": "workboard",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "frontend:start": "npm --workspace frontend run start",
+    "frontend:web": "npm --workspace frontend run web",
+    "frontend:web:build": "npm --workspace frontend run web:build",
+    "backend:serve": "npm --workspace backend run serve",
+    "backend:deploy": "npm --workspace backend run deploy"
+  }
+}
