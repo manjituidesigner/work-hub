@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -9,85 +9,98 @@ export default function LoginScreen({ onBack, onGoSignup, onSubmit }) {
   const [hidePassword, setHidePassword] = useState(true);
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    >
       <LinearGradient
         colors={["rgba(219,234,254,0.8)", "transparent"]}
         style={StyleSheet.absoluteFill}
         pointerEvents="none"
       />
 
-      <View style={styles.wrapper}>
-        <View style={styles.header}>
-          <View style={styles.logoBox}>
-            <MaterialIcons name="work-history" size={48} color="#fff" />
-          </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.scroll}
+      >
+        <View style={styles.wrapper}>
+          <TouchableOpacity style={styles.backBtn} onPress={onBack}>
+            <MaterialIcons name="arrow-back" size={24} color="#111418" />
+          </TouchableOpacity>
 
-          <Text style={styles.title}>Welcome Back</Text>
-          <Text style={styles.subtitle}>Please sign in to your account</Text>
-        </View>
-
-        <View style={styles.form}>
-          <View style={styles.field}>
-            <Text style={styles.label}>Employee ID</Text>
-            <View style={styles.inputWrapper}>
-              <TextInput
-                placeholder="Enter your Employee ID"
-                placeholderTextColor="#94a3b8"
-                style={styles.input}
-              />
-              <MaterialIcons name="badge" size={20} color="#94a3b8" />
+          <View style={styles.header}>
+            <View style={styles.logoBox}>
+              <MaterialIcons name="work-history" size={48} color="#fff" />
             </View>
+
+            <Text style={styles.title}>Welcome Back</Text>
+            <Text style={styles.subtitle}>Please sign in to your account</Text>
           </View>
 
-          <View style={styles.field}>
-            <Text style={styles.label}>Password</Text>
-            <View style={styles.inputWrapper}>
-              <TextInput
-                placeholder="Enter your password"
-                placeholderTextColor="#94a3b8"
-                secureTextEntry={hidePassword}
-                style={styles.input}
-              />
-              <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
-                <MaterialIcons
-                  name={hidePassword ? "visibility-off" : "visibility"}
-                  size={20}
-                  color="#94a3b8"
+          <View style={styles.form}>
+            <View style={styles.field}>
+              <Text style={styles.label}>Employee ID</Text>
+              <View style={styles.inputWrapper}>
+                <TextInput
+                  placeholder="Enter your Employee ID"
+                  placeholderTextColor="#94a3b8"
+                  style={styles.input}
                 />
+                <MaterialIcons name="badge" size={20} color="#94a3b8" />
+              </View>
+            </View>
+
+            <View style={styles.field}>
+              <Text style={styles.label}>Password</Text>
+              <View style={styles.inputWrapper}>
+                <TextInput
+                  placeholder="Enter your password"
+                  placeholderTextColor="#94a3b8"
+                  secureTextEntry={hidePassword}
+                  style={styles.input}
+                />
+                <TouchableOpacity onPress={() => setHidePassword(!hidePassword)}>
+                  <MaterialIcons
+                    name={hidePassword ? "visibility-off" : "visibility"}
+                    size={20}
+                    color="#94a3b8"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <TouchableOpacity style={styles.forgot}>
+              <Text style={styles.forgotText}>Forgot Password?</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity activeOpacity={0.9} onPress={() => onSubmit?.()}>
+              <LinearGradient colors={[PRIMARY, "#3b82f6"]} style={styles.loginBtn}>
+                <Text style={styles.loginText}>Log In</Text>
+                <MaterialIcons name="login" size={20} color="#fff" />
+              </LinearGradient>
+            </TouchableOpacity>
+
+            <View style={styles.biometric}>
+              <TouchableOpacity>
+                <MaterialIcons name="face" size={36} color="#94a3b8" />
               </TouchableOpacity>
             </View>
           </View>
 
-          <TouchableOpacity style={styles.forgot}>
-            <Text style={styles.forgotText}>Forgot Password?</Text>
-          </TouchableOpacity>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              Don’t have an account?
+              <Text style={styles.link} onPress={onGoSignup}>
+                {' '}Sign Up
+              </Text>
+            </Text>
 
-          <TouchableOpacity activeOpacity={0.9} onPress={() => onSubmit?.()}>
-            <LinearGradient colors={[PRIMARY, "#3b82f6"]} style={styles.loginBtn}>
-              <Text style={styles.loginText}>Log In</Text>
-              <MaterialIcons name="login" size={20} color="#fff" />
-            </LinearGradient>
-          </TouchableOpacity>
-
-          <View style={styles.biometric}>
-            <TouchableOpacity>
-              <MaterialIcons name="face" size={36} color="#94a3b8" />
-            </TouchableOpacity>
+            <Text style={styles.vendorText}>Log in as Vendor or Admin</Text>
           </View>
         </View>
-
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
-            Don’t have an account?
-            <Text style={styles.link} onPress={onGoSignup}>
-              {' '}Sign Up
-            </Text>
-          </Text>
-
-          <Text style={styles.vendorText}>Log in as Vendor or Admin</Text>
-        </View>
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -97,13 +110,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#f1f5f9",
   },
 
-  wrapper: {
-    flex: 1,
-    maxWidth: 420,
-    alignSelf: "center",
-    paddingHorizontal: 24,
-    paddingTop: 84,
+  scroll: {
+    flexGrow: 1,
+    paddingHorizontal: 16,
+    paddingTop: 18,
     paddingBottom: 40,
+  },
+
+  wrapper: {
+    width: "100%",
+  },
+
+  backBtn: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    backgroundColor: "rgba(255,255,255,0.9)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 18,
   },
 
   header: {

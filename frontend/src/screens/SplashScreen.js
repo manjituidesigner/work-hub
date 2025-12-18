@@ -185,7 +185,7 @@ export default function SplashScreen({ onGoLogin, onGoSignup }) {
         }
         return next;
       });
-    }, 2600);
+    }, 4200);
 
     return () => clearInterval(id);
   }, [cards.length]);
@@ -194,7 +194,7 @@ export default function SplashScreen({ onGoLogin, onGoSignup }) {
     if (!heroSlides.length) return;
     const id = setInterval(() => {
       setHeroIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 3000);
+    }, 4500);
     return () => clearInterval(id);
   }, [heroSlides.length]);
 
@@ -260,11 +260,6 @@ export default function SplashScreen({ onGoLogin, onGoSignup }) {
           </View>
 
           <View style={styles.heroRight}>
-            <Animated.View style={[styles.heroBadge, { transform: [{ translateY: floatY }], opacity: fade }]}>
-              <MaterialIcons name="auto-awesome" size={16} color={PRIMARY} />
-              <Text style={styles.heroBadgeText}>Smart HR Suite</Text>
-            </Animated.View>
-
             <Animated.View style={{ opacity: heroOpacity, transform: [{ translateY: heroTranslateY }] }}>
               <Text style={styles.heroHeadline}>
                 {heroSlide.headlineA}
@@ -279,20 +274,6 @@ export default function SplashScreen({ onGoLogin, onGoSignup }) {
                     <MaterialIcons name="check-circle" size={14} color="#16A34A" />
                     <Text style={styles.heroBulletText}>{b}</Text>
                   </View>
-                ))}
-              </View>
-
-              <View style={styles.heroMiniRow}>
-                {(heroSlide.miniIcons ?? []).slice(0, 3).map((ic, i) => (
-                  <Animated.View
-                    key={i}
-                    style={[
-                      styles.heroMiniIcon,
-                      { transform: [{ translateY: i % 2 === 0 ? floatY2 : floatY }] },
-                    ]}
-                  >
-                    <MaterialIcons name={ic.name} size={16} color={ic.color} />
-                  </Animated.View>
                 ))}
               </View>
 
@@ -321,7 +302,7 @@ export default function SplashScreen({ onGoLogin, onGoSignup }) {
         horizontal
         showsHorizontalScrollIndicator={false}
         snapToInterval={SNAP_INTERVAL}
-        decelerationRate="fast"
+        decelerationRate="normal"
         snapToAlignment="start"
         contentOffset={{ x: activeIndex * SNAP_INTERVAL, y: 0 }}
         onMomentumScrollEnd={(e) => {
@@ -403,7 +384,7 @@ const styles = StyleSheet.create({
   hero: {
     alignSelf: "center",
     marginTop: 14,
-    height: 190,
+    height: 220,
     borderRadius: 22,
     backgroundColor: "rgba(255,255,255,0.35)",
     overflow: "hidden",
@@ -446,7 +427,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 6,
     alignSelf: "flex-start",
-    backgroundColor: "rgba(255,255,255,0.85)",
+    backgroundColor: "transparent",
     borderRadius: 999,
     paddingHorizontal: 10,
     paddingVertical: 6,
@@ -525,7 +506,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 10,
-    backgroundColor: "rgba(255,255,255,0.75)",
+    backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
   },

@@ -9,6 +9,8 @@ import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import SelectAccountTypeScreen from './src/screens/SelectAccountTypeScreen';
 import EmployeeProfileScreen from './src/screens/EmployeeProfileScreen';
+import ProfileCreateScreen from './src/screens/ProfileCreateScreen';
+import EmployeeDashboardScreen from './src/screens/EmployeeDashboardScreen';
 import { ThemeProvider, useTheme } from './src/theme';
 
 function MobileSizeWrapper({ children }) {
@@ -83,8 +85,26 @@ export default function App() {
           <LoginScreen
             onBack={() => setRoute('splash')}
             onGoSignup={() => setRoute('signup')}
-            onSubmit={() => setRoute('selectAccountType')}
+            onSubmit={() => setRoute('profileCreate')}
           />
+          <StatusBar style="dark" />
+        </MobileSizeWrapper>
+      );
+    }
+
+    if (route === 'profileCreate') {
+      return (
+        <MobileSizeWrapper>
+          <ProfileCreateScreen onCancel={() => setRoute('login')} onSave={() => setRoute('employeeDashboard')} />
+          <StatusBar style="dark" />
+        </MobileSizeWrapper>
+      );
+    }
+
+    if (route === 'employeeDashboard') {
+      return (
+        <MobileSizeWrapper>
+          <EmployeeDashboardScreen />
           <StatusBar style="dark" />
         </MobileSizeWrapper>
       );
